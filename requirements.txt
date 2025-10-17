@@ -2,3 +2,5 @@ streamlit
 matplotlib
 pandas
 pillow
+arabic-reshaper
+python-bidi
