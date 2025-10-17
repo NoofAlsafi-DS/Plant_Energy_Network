@@ -7,19 +7,30 @@ import matplotlib as mpl
 import arabic_reshaper
 from bidi.algorithm import get_display
 from matplotlib.font_manager import FontProperties
+import os
 
-# إعداد عام
+# ================= إعدادات عامة =================
 st.set_page_config(page_title="Smart Plant Energy Network", page_icon="🌱", layout="wide")
-mpl.rcParams['axes.unicode_minus'] = False  # لإصلاح عرض الرمز السالب
+mpl.rcParams['axes.unicode_minus'] = False  # لإصلاح عرض السالب في الأرقام
 
-# تفعيل الخط العربي
-AR_FONT = FontProperties(fname="fonts/NotoNaskhArabic-Regular.ttf")
+# التحقق من وجود الخط العربي
+font_path = "fonts/NotoNaskhArabic-Regular.ttf"
+if os.path.exists(font_path):
+    AR_FONT = FontProperties(fname=font_path)
+    st.caption("✅ تم تحميل الخط العربي بنجاح.")
+else:
+    st.warning("⚠️ لم يتم العثور على الخط العربي (NotoNaskhArabic-Regular.ttf). سيتم استخدام الخط الافتراضي.")
+    AR_FONT = FontProperties()  # استخدام الخط الافتراضي في حال غياب الخط
 
+# دالة لتشكيل النص العربي وعرضه باتجاه صحيح
 def ar(text: str) -> str:
-    """تشكيل النص العربي وعرضه باتجاه صحيح"""
-    return get_display(arabic_reshaper.reshape(text))
+    """تهيئة النص العربي ليُعرض من اليمين لليسار بشكل صحيح"""
+    try:
+        return get_display(arabic_reshaper.reshape(text))
+    except Exception:
+        return text
 
-# ---------- ترويسة مع اللوقو ----------
+# ================= ترويسة التطبيق =================
 def header_with_logo():
     st.markdown("""
         <style>
@@ -50,17 +61,18 @@ def header_with_logo():
 
 header_with_logo()
 
-# ---------- سايدبار ----------
+# ================= الشريط الجانبي =================
 with st.sidebar:
     st.header("⚙️ إعدادات العرض")
     show_currents = st.checkbox("عرض التيار (mA)", True)
     show_voltages = st.checkbox("عرض الجهد (V)", True)
     st.markdown("---")
+    st.caption("📁 تأكد من وجود الخط داخل مجلد fonts/")
 
-# ---------- تبويبات ----------
+# ================= التبويبات =================
 tab1, tab2, tab3 = st.tabs(["🧩 الفكرة + الرسم", "📊 النتائج التجريبية", "🔌 توصيل الشبكة"])
 
-# =================== التبويب 1 ===================
+# ===== التبويب 1 =====
 with tab1:
     st.subheader(ar("كيف تُولِّد النباتات الكهرباء؟"))
     st.write(ar("""
@@ -100,10 +112,12 @@ with tab1:
     ax.text(0.36, 0.24, "e⁻", color="#aa0000", fontsize=10)
     ax.text(0.80, 0.65, "O₂", fontsize=11, color="#004c99")
 
-    ax.set_xlim(0, 1); ax.set_ylim(0, 1); ax.axis("off")
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    ax.axis("off")
     st.pyplot(fig)
 
-# =================== التبويب 2 ===================
+# ===== التبويب 2 =====
 with tab2:
     st.subheader(ar("النتائج التجريبية"))
     df = pd.DataFrame({
@@ -134,7 +148,7 @@ with tab2:
             ax2.set_title(ar("التيار حسب نوع النبات"), fontproperties=AR_FONT)
             st.pyplot(fig2)
 
-# =================== التبويب 3 ===================
+# ===== التبويب 3 =====
 with tab3:
     st.subheader(ar("توصيل الخلايا النباتية"))
     st.write(ar("""
