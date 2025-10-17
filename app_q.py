@@ -10,21 +10,31 @@ from matplotlib.font_manager import FontProperties
 import os
 
 # ================= إعدادات عامة =================
-st.set_page_config(page_title="Smart Plant Energy Network", page_icon="🌱", layout="wide")
-mpl.rcParams['axes.unicode_minus'] = False  # لإصلاح عرض السالب في الأرقام
+st.set_page_config(page_title="الشبكة النباتية الذكية لتوليد الكهرباء", page_icon="🌱", layout="wide")
+
+# 🌿 تصحيح اتجاه النصوص العربية في الواجهة
+st.markdown("""
+<style>
+body, div, p, span, h1, h2, h3, h4, h5, h6 {
+    direction: rtl;
+    text-align: right;
+    font-family: 'Noto Naskh Arabic', sans-serif;
+}
+</style>
+""", unsafe_allow_html=True)
+
+mpl.rcParams['axes.unicode_minus'] = False  # لإصلاح عرض العلامة السالبة
 
 # التحقق من وجود الخط العربي
 font_path = "fonts/NotoNaskhArabic-Regular.ttf"
 if os.path.exists(font_path):
     AR_FONT = FontProperties(fname=font_path)
-    st.caption("✅ تم تحميل الخط العربي بنجاح.")
 else:
-    st.warning("⚠️ لم يتم العثور على الخط العربي (NotoNaskhArabic-Regular.ttf). سيتم استخدام الخط الافتراضي.")
-    AR_FONT = FontProperties()  # استخدام الخط الافتراضي في حال غياب الخط
+    st.warning("⚠️ لم يتم العثور على الخط العربي (NotoNaskhArabic-Regular.ttf)، سيتم استخدام الخط الافتراضي.")
+    AR_FONT = FontProperties()
 
-# دالة لتشكيل النص العربي وعرضه باتجاه صحيح
+# دالة لتصحيح النصوص داخل الرسوم
 def ar(text: str) -> str:
-    """تهيئة النص العربي ليُعرض من اليمين لليسار بشكل صحيح"""
     try:
         return get_display(arabic_reshaper.reshape(text))
     except Exception:
@@ -43,21 +53,20 @@ def header_with_logo():
         </style>
     """, unsafe_allow_html=True)
 
-    with st.container():
-        st.markdown('<div class="header-box">', unsafe_allow_html=True)
-        col_logo, col_title, col_empty = st.columns([1, 3, 0.4])
-        with col_logo:
-            try:
-                logo = Image.open("logo_q.png")
-                st.image(logo, use_container_width=True)
-            except Exception:
-                st.write("🌱")
-        with col_title:
-            st.markdown('<div class="title-text">Smart Plant Energy Network</div>', unsafe_allow_html=True)
-            st.markdown('<p class="subtitle-text">الشبكة النباتية الذكية لتوليد الكهرباء • Smart Plant Energy Network</p>', unsafe_allow_html=True)
-        with col_empty:
-            st.write("")
-        st.markdown('</div>', unsafe_allow_html=True)
+    st.markdown('<div class="header-box">', unsafe_allow_html=True)
+    col_logo, col_title, col_empty = st.columns([1, 3, 0.4])
+    with col_logo:
+        try:
+            logo = Image.open("logo_q.png")
+            st.image(logo, use_container_width=True)
+        except Exception:
+            st.write("🌱")
+    with col_title:
+        st.markdown('<div class="title-text">الشبكة النباتية الذكية لتوليد الكهرباء</div>', unsafe_allow_html=True)
+        st.markdown('<p class="subtitle-text">Smart Plant Energy Network • طاقة حيوية نظيفة ومستدامة</p>', unsafe_allow_html=True)
+    with col_empty:
+        st.write("")
+    st.markdown('</div>', unsafe_allow_html=True)
 
 header_with_logo()
 
@@ -67,44 +76,37 @@ with st.sidebar:
     show_currents = st.checkbox("عرض التيار (mA)", True)
     show_voltages = st.checkbox("عرض الجهد (V)", True)
     st.markdown("---")
-    st.caption("📁 تأكد من وجود الخط داخل مجلد fonts/")
 
 # ================= التبويبات =================
-tab1, tab2, tab3 = st.tabs(["🧩 الفكرة + الرسم", "📊 النتائج التجريبية", "🔌 توصيل الشبكة"])
+tab1, tab2, tab3 = st.tabs(["🧩 الفكرة والرسم التوضيحي", "📊 النتائج التجريبية", "🔌 توصيل الشبكة النباتية"])
 
 # ===== التبويب 1 =====
 with tab1:
-    st.subheader(ar("كيف تُولِّد النباتات الكهرباء؟"))
-    st.write(ar("""
-    الجذور تُفرز مركبات عضوية ➜ البكتيريا تحلّلها ➜ تنطلق إلكترونات.
+    st.subheader("كيف تُولِّد النباتات الكهرباء؟")
+    st.write("""
+    الجذور تُفرز مركبات عضوية ➜ البكتيريا تُحلِّلها ➜ تنطلق إلكترونات.
     الأنود داخل التربة يلتقط الإلكترونات، والكاثود عند الهواء يُكمل التفاعل.
     بربط الأنود بالكاثود نحصل على تيار كهربائي صغير قابل للتجميع.
-    """))
+    """)
 
-    # رسم توضيحي للخلية النباتية
     fig, ax = plt.subplots(figsize=(8, 5))
     ax.add_patch(plt.Rectangle((0.05, 0.05), 0.9, 0.55, facecolor="#e9d7a5", edgecolor="k"))
     ax.add_patch(plt.Rectangle((0.05, 0.60), 0.9, 0.10, facecolor="#cfe8ff", edgecolor="k"))
     ax.text(0.90, 0.62, ar("هواء"), fontproperties=AR_FONT, fontsize=10)
 
-    # النبات
     ax.plot([0.25, 0.25], [0.20, 0.68], color="#7aa35a", lw=4)
     ax.plot([0.20, 0.25, 0.30], [0.66, 0.70, 0.66], color="#4c8b37", lw=6)
     ax.text(0.18, 0.71, ar("نبات"), fontproperties=AR_FONT, fontsize=10)
-
-    # الجذور والبكتيريا
     ax.plot([0.25, 0.20], [0.20, 0.15], color="#8b5a2b", lw=3)
     ax.plot([0.25, 0.30], [0.20, 0.14], color="#8b5a2b", lw=3)
     ax.text(0.07, 0.18, ar("جذور تُفرز\nمركبات عضوية"), fontproperties=AR_FONT, fontsize=9)
     ax.text(0.40, 0.12, ar("بكتيريا كهربية"), fontproperties=AR_FONT, fontsize=9)
 
-    # الأقطاب
     ax.add_patch(plt.Rectangle((0.55, 0.12), 0.02, 0.30, facecolor="#444444"))
     ax.text(0.57, 0.38, ar("أنود"), fontproperties=AR_FONT, fontsize=10)
     ax.add_patch(plt.Rectangle((0.75, 0.60), 0.02, 0.12, facecolor="#999999"))
     ax.text(0.77, 0.72, ar("كاثود"), fontproperties=AR_FONT, fontsize=10)
 
-    # السلك الخارجي
     ax.plot([0.56, 0.56, 0.76, 0.76], [0.42, 0.80, 0.80, 0.72], color="black", lw=2)
     for x in [0.34, 0.38, 0.42]:
         ax.annotate("", xy=(0.56, 0.28), xytext=(x, 0.22),
@@ -119,7 +121,7 @@ with tab1:
 
 # ===== التبويب 2 =====
 with tab2:
-    st.subheader(ar("النتائج التجريبية"))
+    st.subheader("النتائج التجريبية للنظام النباتي")
     df = pd.DataFrame({
         "نوع النبات": ["سبانخ", "فاصوليا", "شبكة نباتية"],
         "نوع التربة": ["رملية", "عضوية", "عضوية + ري عضوي"],
@@ -150,11 +152,11 @@ with tab2:
 
 # ===== التبويب 3 =====
 with tab3:
-    st.subheader(ar("توصيل الخلايا النباتية"))
-    st.write(ar("""
-    - **التسلسل (Series):** يرفع الجهد الكلي (Voltage↑).  
-    - **التوازي (Parallel):** يرفع التيار الكلي (Current↑).
-    """))
+    st.subheader("توصيل الشبكة النباتية الذكية")
+    st.write("""
+    **التوصيل على التوالي (Series):** يرفع الجهد الكلي (Voltage↑).  
+    **التوصيل على التوازي (Parallel):** يرفع التيار الكلي (Current↑).
+    """)
 
     fig3, ax3 = plt.subplots(figsize=(8, 4))
     ax3.add_patch(plt.Rectangle((0.05, 0.60), 0.12, 0.25, fill=False))
