@@ -192,19 +192,20 @@ with tab2:
     col1, col2 = st.columns(2)
     with col1:
         fig1, ax1 = plt.subplots()
-        ax1.bar(df.index, df["الجهد (V)"])
+        bars = ax1.bar(df.index, df["الجهد (V)"], color=["#A5D6A7", "#66BB6A", "#2E7D32"])
         ax1.set_xticks(df.index)
         ax1.set_xticklabels([ar(s) for s in df["نوع النبات"]], fontproperties=AR_FONT)
-        ax1.set_ylabel(ar("الجهد (فولت)"), fontproperties=AR_FONT)
-        ax1.set_title(ar("الجهد حسب نوع النبات"), fontproperties=AR_FONT)
+        ax1.set_ylabel(ar("الجهد (فولت)"), fontproperties=AR_FONT, color="#1B5E20")
+        ax1.set_title(ar("الجهد حسب نوع النبات"), fontproperties=AR_FONT, color="#1B5E20")
         st.pyplot(fig1)
+    
     with col2:
         fig2, ax2 = plt.subplots()
-        ax2.bar(df.index, df["التيار (mA)"])
+        bars = ax2.bar(df.index, df["التيار (mA)"], color=["#C8E6C9", "#81C784", "#388E3C"])
         ax2.set_xticks(df.index)
         ax2.set_xticklabels([ar(s) for s in df["نوع النبات"]], fontproperties=AR_FONT)
-        ax2.set_ylabel(ar("التيار (ملي أمبير)"), fontproperties=AR_FONT)
-        ax2.set_title(ar("التيار حسب نوع النبات"), fontproperties=AR_FONT)
+        ax2.set_ylabel(ar("التيار (ملي أمبير)"), fontproperties=AR_FONT, color="#1B5E20")
+        ax2.set_title(ar("التيار حسب نوع النبات"), fontproperties=AR_FONT, color="#1B5E20")
         st.pyplot(fig2)
 
 # ----- التبويب 3: التوصيل -----
