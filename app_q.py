@@ -74,7 +74,6 @@ def header_with_logo():
 
 # ===== عرض الترويسة والنافذة =====
 header_with_logo()
-about_modal()
 
 # ================= الشريط الجانبي =================
 with st.sidebar:
