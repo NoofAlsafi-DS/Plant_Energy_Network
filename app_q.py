@@ -15,18 +15,22 @@ st.set_page_config(page_title="الشبكة النباتية الذكية لتو
 # 🌿 تصحيح اتجاه النصوص العربية في الواجهة
 st.markdown("""
 <style>
-body, div, p, span, h1, h2, h3, h4, h5, h6 { direction: rtl; text-align: right; font-family: 'Noto Naskh Arabic', sans-serif; }
+body, div, p, span, h1, h2, h3, h4, h5, h6 {
+    direction: rtl;
+    text-align: right;
+    font-family: 'Noto Naskh Arabic', sans-serif;
+}
 </style>
 """, unsafe_allow_html=True)
 
-mpl.rcParams['axes.unicode_minus'] = False  # لإصلاح عرض السالب
+mpl.rcParams['axes.unicode_minus'] = False  # لإصلاح عرض السالب داخل الرسوم
 
-# التحقق من وجود الخط العربي
+# التحقق من وجود الخط العربي للرسوم
 font_path = "fonts/NotoNaskhArabic-Regular.ttf"
 if os.path.exists(font_path):
     AR_FONT = FontProperties(fname=font_path)
 else:
-    st.warning("⚠️ لم يتم العثور على الخط العربي (fonts/NotoNaskhArabic-Regular.ttf). سيُستخدم الخط الافتراضي.")
+    st.warning("⚠️ لم يتم العثور على الخط العربي (fonts/NotoNaskhArabic-Regular.ttf). سيُستخدم الخط الافتراضي داخل الرسوم.")
     AR_FONT = FontProperties()
 
 # دالة تهيئة النص العربي داخل الرسوم
@@ -61,20 +65,19 @@ def header_with_logo():
         st.markdown('<div class="title-text">الشبكة النباتية الذكية لتوليد الكهرباء</div>', unsafe_allow_html=True)
         st.markdown('<p class="subtitle-text">Smart Plant Energy Network • طاقة حيوية نظيفة ومستدامة</p>', unsafe_allow_html=True)
     with col_btn:
-        # زر فتح نافذة "حول التطبيق"
         if st.button("ℹ️ حول التطبيق", use_container_width=True):
             st.session_state.show_about = True
     st.markdown('</div>', unsafe_allow_html=True)
 
 # ================= نافذة منبثقة: حول التطبيق =================
 def about_modal():
-    # حالة الظهور
     if "show_about" not in st.session_state:
         st.session_state.show_about = False
 
     st.markdown("""
     <style>
-    .spen-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; z-index: 99999; }
+    .spen-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45);
+        display: flex; align-items: center; justify-content: center; z-index: 99999; }
     .spen-modal {
         width: min(860px, 94vw); background: #ffffff; color: #1b5e20;
         border-radius: 18px; padding: 22px 22px 14px; box-shadow: 0 12px 36px rgba(0,0,0,0.2);
@@ -83,10 +86,8 @@ def about_modal():
     .spen-modal h2 { margin: 0 0 8px 0; font-size: 22px; font-weight: 900; color:#1b5e20; }
     .spen-modal p { margin: 6px 0; line-height: 1.7; color:#2e7d32; }
     .spen-badges { display:flex; flex-wrap:wrap; gap:6px; margin: 8px 0 2px;}
-    .spen-badge { background:#e8f5e9; border:1px solid #d7ead9; color:#1b5e20; border-radius: 999px; padding: 4px 10px; font-size: 12px; }
-    .spen-actions { display:flex; gap:10px; margin-top: 10px;}
-    .spen-btn { background:#1b5e20; color:#fff; border:none; border-radius: 12px; padding: 8px 14px; cursor:pointer; font-weight:700; }
-    .spen-btn.secondary { background:#a5d6a7; color:#1b5e20; }
+    .spen-badge { background:#e8f5e9; border:1px solid #d7ead9; color:#1b5e20;
+                  border-radius: 999px; padding: 4px 10px; font-size: 12px; }
     </style>
     """, unsafe_allow_html=True)
 
@@ -97,8 +98,8 @@ def about_modal():
         st.markdown("""
         <h2>🌱 الشبكة النباتية الذكية لتوليد الكهرباء</h2>
         <p>
-        تطبيق تعليمي تفاعلي يشرح مبدأ توليد الكهرباء من النباتات عبر الخلايا الوقودية الميكروبية النباتية،
-        ويعرض كيف نربط عدة نباتات في شبكة ذكية مع تخزين وتنظيم للطاقة لتغذية أجهزة مثل إنارة الحدائق والكاميرات وإشارات المرور.
+        تطبيق تعليمي يشرح مبدأ توليد الكهرباء من النباتات عبر الخلايا الوقودية الميكروبية النباتية،
+        ويوضح كيف نوسّعها إلى شبكة ذكية مع تخزين وتنظيم للطاقة لتغذية إنارة الحدائق والحساسات والكاميرات وإشارات المرور.
         </p>
         <div class="spen-badges">
           <span class="spen-badge">Streamlit</span>
@@ -108,12 +109,8 @@ def about_modal():
           <span class="spen-badge">Bio-Energy</span>
         </div>
         <p><b>المزايا:</b><br>
-        • رسوم توضيحية لفكرة P-MFC. <br>
-        • جداول ورسوم للجهد والتيار. <br>
-        • دعم العربية (RTL + خط عربي داخل الرسوم). <br>
-        • تصميم خفيف وملائم للعرض المدرسي/المسابقة. <br>
+        • رسوم توضيحية لفكرة P-MFC • جداول ورسوم للجهد والتيار • دعم العربية (RTL + خط عربي داخل الرسوم) • تصميم خفيف للعرض المدرسي/المسابقة.
         </p>
-        <p><b>المكتبات:</b> Pandas, Matplotlib, Pillow, arabic-reshaper, python-bidi</p>
         """, unsafe_allow_html=True)
 
         c1, c2 = st.columns([0.2, 0.8])
@@ -134,15 +131,16 @@ about_modal()
 # ================= الشريط الجانبي =================
 with st.sidebar:
     st.header("⚙️ إعدادات العرض")
-    show_currents = st.checkbox("عرض التيار (mA)", True)
-    show_voltages = st.checkbox("عرض الجهد (V)", True)
-    st.markdown("---")
-    st.caption("📁 ضع ملف الخط داخل: fonts/NotoNaskhArabic-Regular.ttf")
 
 # ================= التبويبات =================
-tab1, tab2, tab3 = st.tabs(["🧩 الفكرة والرسم التوضيحي", "📊 النتائج التجريبية", "🔌 توصيل الشبكة النباتية"])
+tab1, tab2, tab3, tab4 = st.tabs([
+    "🧩 الفكرة والرسم التوضيحي",
+    "📊 النتائج التجريبية",
+    "🔌 توصيل الشبكة النباتية",
+    "🔋 التخزين والتوصيل إلى الأحمال"
+])
 
-# ----- التبويب 1 -----
+# ----- التبويب 1: الفكرة + الرسم -----
 with tab1:
     st.subheader("كيف تُولِّد النباتات الكهرباء؟")
     st.write("""
@@ -180,7 +178,7 @@ with tab1:
     ax.set_xlim(0, 1); ax.set_ylim(0, 1); ax.axis("off")
     st.pyplot(fig)
 
-# ----- التبويب 2 -----
+# ----- التبويب 2: النتائج -----
 with tab2:
     st.subheader("النتائج التجريبية للنظام النباتي")
     df = pd.DataFrame({
@@ -192,26 +190,24 @@ with tab2:
     st.dataframe(df, use_container_width=True)
 
     col1, col2 = st.columns(2)
-    if st.checkbox("عرض الجهد (V)", value=True, key="vplot"):
-        with col1:
-            fig1, ax1 = plt.subplots()
-            ax1.bar(df.index, df["الجهد (V)"])
-            ax1.set_xticks(df.index)
-            ax1.set_xticklabels([ar(s) for s in df["نوع النبات"]], fontproperties=AR_FONT)
-            ax1.set_ylabel(ar("الجهد (فولت)"), fontproperties=AR_FONT)
-            ax1.set_title(ar("الجهد حسب نوع النبات"), fontproperties=AR_FONT)
-            st.pyplot(fig1)
-    if st.checkbox("عرض التيار (mA)", value=True, key="iplot"):
-        with col2:
-            fig2, ax2 = plt.subplots()
-            ax2.bar(df.index, df["التيار (mA)"])
-            ax2.set_xticks(df.index)
-            ax2.set_xticklabels([ar(s) for s in df["نوع النبات"]], fontproperties=AR_FONT)
-            ax2.set_ylabel(ar("التيار (ملي أمبير)"), fontproperties=AR_FONT)
-            ax2.set_title(ar("التيار حسب نوع النبات"), fontproperties=AR_FONT)
-            st.pyplot(fig2)
+    with col1:
+        fig1, ax1 = plt.subplots()
+        ax1.bar(df.index, df["الجهد (V)"])
+        ax1.set_xticks(df.index)
+        ax1.set_xticklabels([ar(s) for s in df["نوع النبات"]], fontproperties=AR_FONT)
+        ax1.set_ylabel(ar("الجهد (فولت)"), fontproperties=AR_FONT)
+        ax1.set_title(ar("الجهد حسب نوع النبات"), fontproperties=AR_FONT)
+        st.pyplot(fig1)
+    with col2:
+        fig2, ax2 = plt.subplots()
+        ax2.bar(df.index, df["التيار (mA)"])
+        ax2.set_xticks(df.index)
+        ax2.set_xticklabels([ar(s) for s in df["نوع النبات"]], fontproperties=AR_FONT)
+        ax2.set_ylabel(ar("التيار (ملي أمبير)"), fontproperties=AR_FONT)
+        ax2.set_title(ar("التيار حسب نوع النبات"), fontproperties=AR_FONT)
+        st.pyplot(fig2)
 
-# ----- التبويب 3 -----
+# ----- التبويب 3: التوصيل -----
 with tab3:
     st.subheader("توصيل الشبكة النباتية الذكية")
     st.write("""
@@ -237,3 +233,120 @@ with tab3:
     ax3.axis("off")
     st.pyplot(fig3)
 
+# ----- التبويب 4: التخزين والتوصيل إلى الأحمال -----
+with tab4:
+    st.subheader("كيف نخزّن الكهرباء النباتية ونوصلها للأجهزة؟")
+    st.write("""
+    تمرّ الكهرباء بثلاث مراحل:  
+    1) **التجميع:** التقاط الإلكترونات من الأنود/الكاثود من عدة نباتات.  
+    2) **التخزين:** وضع الطاقة في **مكثفات أو بطارية صغيرة**.  
+    3) **التوزيع الذكي:** إرسال الطاقة إلى الأجهزة (إنارة، حساسات، كاميرات...) عبر متحكم ومنظّم جهد.
+    """)
+
+    st.markdown("---")
+    st.markdown("### 🧮 حاسبة مبسّطة للطاقة")
+
+    colA, colB = st.columns(2)
+    with colA:
+        st.markdown("**معطيات كل وحدة نباتية**")
+        v_cell = st.number_input("جهد الوحدة (V)", value=0.4, step=0.1, min_value=0.0)
+        i_cell = st.number_input("تيار الوحدة (mA)", value=0.6, step=0.1, min_value=0.0)
+
+        st.markdown("**توصيل الشبكة**")
+        series_n = st.number_input("عدد الوحدات على التوالي (Series)", value=2, step=1, min_value=0)
+        parallel_n = st.number_input("عدد الأفرع على التوازي (Parallel)", value=2, step=1, min_value=0)
+
+        st.markdown("**كفاءة التحويل والتنظيم**")
+        eff_harvest = st.slider("كفاءة مجمّع/منظّم الطاقة (%)", 50, 100, 85)
+
+    with colB:
+        st.markdown("**سعة التخزين**")
+        batt_v = st.number_input("جهد البطارية (V)", value=3.7, step=0.1, min_value=0.0)
+        batt_mah = st.number_input("سعة البطارية (mAh)", value=200.0, step=50.0, min_value=0.0)
+        batt_eff = st.slider("كفاءة الشحن/التخزين (%)", 50, 100, 90)
+
+        st.markdown("**حمل نموذجي**")
+        load_power = st.number_input("قدرة الحمل (واط) – مثال LED أو حساس", value=0.1, step=0.05, min_value=0.0)
+
+    # حسابات الشبكة
+    v_total = v_cell * max(series_n, 0)
+    i_total_ma = i_cell * max(parallel_n, 0)
+    i_total_a = i_total_ma / 1000.0
+
+    # القدرة قبل الكفاءة وبعدها
+    p_raw = v_total * i_total_a   # W
+    p_net = p_raw * (eff_harvest / 100.0)
+
+    # طاقة البطارية (Wh)
+    batt_wh = (batt_mah / 1000.0) * batt_v * (batt_eff / 100.0)
+
+    # حماية من القسمة على صفر
+    charge_hours = batt_wh / p_net if p_net > 0 else 0.0
+    runtime_hours = batt_wh / load_power if load_power > 0 else 0.0
+
+    st.markdown("---")
+    colM, colN, colO, colP = st.columns(4)
+    colM.metric("الجهد الكلي للشبكة (V)", f"{v_total:.2f}")
+    colN.metric("التيار الكلي للشبكة (mA)", f"{i_total_ma:.1f}")
+    colO.metric("القدرة المتاحة بعد الكفاءة (W)", f"{p_net:.3f}")
+    colP.metric("طاقة التخزين (Wh)", f"{batt_wh:.2f}")
+
+    st.info(f"⏱️ زمن شحن البطارية (تقريبًا): **{charge_hours:.1f} ساعة** — "
+            f"زمن تشغيل الحمل من البطارية: **{runtime_hours:.1f} ساعة**.")
+
+    st.caption("ملاحظة: تقديرات تعليمية مبسّطة. القيم الفعلية تتأثر بالحرارة ونوع التربة وكفاءة الدارات والظروف البيئية.")
+
+    st.markdown("---")
+    st.markdown("### 🔋 مسار الطاقة: من النبات إلى التخزين ثم الأحمال")
+
+    fig_flow, ax_flow = plt.subplots(figsize=(9, 3.8))
+    # صناديق المسار
+    ax_flow.add_patch(plt.Rectangle((0.03, 0.60), 0.20, 0.25, fill=False))
+    ax_flow.text(0.13, 0.72, ar("شبكة نباتية"), fontproperties=AR_FONT, ha="center", fontsize=11)
+
+    ax_flow.add_patch(plt.Rectangle((0.30, 0.60), 0.20, 0.25, fill=False))
+    ax_flow.text(0.40, 0.72, ar("مجمّع/منظّم"), fontproperties=AR_FONT, ha="center", fontsize=11)
+
+    ax_flow.add_patch(plt.Rectangle((0.57, 0.60), 0.20, 0.25, fill=False))
+    ax_flow.text(0.67, 0.72, ar("مكثفات/بطارية"), fontproperties=AR_FONT, ha="center", fontsize=11)
+
+    ax_flow.add_patch(plt.Rectangle((0.84, 0.60), 0.13, 0.25, fill=False))
+    ax_flow.text(0.905, 0.72, ar("أحمال"), fontproperties=AR_FONT, ha="center", fontsize=11)
+
+    # أسهم
+    ax_flow.annotate("", xy=(0.28, 0.72), xytext=(0.23, 0.72), arrowprops=dict(arrowstyle="->", lw=2))
+    ax_flow.annotate("", xy=(0.55, 0.72), xytext=(0.50, 0.72), arrowprops=dict(arrowstyle="->", lw=2))
+    ax_flow.annotate("", xy=(0.82, 0.72), xytext=(0.77, 0.72), arrowprops=dict(arrowstyle="->", lw=2))
+
+    # أحمال فرعية
+    ax_flow.text(0.905, 0.52, ar("LED إنارة"), fontproperties=AR_FONT, ha="center", fontsize=10)
+    ax_flow.text(0.905, 0.46, ar("حساسات/كاميرات"), fontproperties=AR_FONT, ha="center", fontsize=10)
+    ax_flow.text(0.905, 0.40, ar("لوحات/إشارات"), fontproperties=AR_FONT, ha="center", fontsize=10)
+
+    ax_flow.axis("off")
+    st.pyplot(fig_flow)
+
+    st.markdown("### ⚖️ توزيع القدرة على الأحمال (حسب الأولوية)")
+    colP1, colP2, colP3 = st.columns(3)
+    with colP1:
+        prio_safety = st.slider("أولوية السلامة (إشارات/كاميرات)", 0, 100, 50)
+    with colP2:
+        prio_service = st.slider("أولوية الخدمة (إنارة/مدارس)", 0, 100, 30)
+    with colP3:
+        prio_comfort = st.slider("أولوية الرفاهية (لوحات/شحن خفيف)", 0, 100, 20)
+
+    total_prio = max(prio_safety + prio_service + prio_comfort, 1)
+    w1, w2, w3 = [p/total_prio for p in (prio_safety, prio_service, prio_comfort)]
+    p1 = p_net * w1; p2 = p_net * w2; p3 = p_net * w3
+
+    st.write(f"• طاقة للسلامة: **{p1:.3f} W**  • للخدمة: **{p2:.3f} W**  • للرفاهية: **{p3:.3f} W**")
+
+    fig_dist, ax_dist = plt.subplots()
+    labels = [ar("سلامة"), ar("خدمة"), ar("رفاهية")]
+    values = [p1, p2, p3]
+    ax_dist.bar(range(3), values)
+    ax_dist.set_xticks(range(3))
+    ax_dist.set_xticklabels(labels, fontproperties=AR_FONT)
+    ax_dist.set_ylabel(ar("القدرة (واط)"), fontproperties=AR_FONT)
+    ax_dist.set_title(ar("توزيع القدرة حسب الأولوية"), fontproperties=AR_FONT)
+    st.pyplot(fig_dist)
