@@ -70,59 +70,7 @@ def header_with_logo():
     st.markdown('</div>', unsafe_allow_html=True)
 
 # ================= نافذة منبثقة: حول التطبيق =================
-def about_modal():
-    if "show_about" not in st.session_state:
-        st.session_state.show_about = False
 
-    st.markdown("""
-    <style>
-    .spen-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45);
-        display: flex; align-items: center; justify-content: center; z-index: 99999; }
-    .spen-modal {
-        width: min(860px, 94vw); background: #ffffff; color: #1b5e20;
-        border-radius: 18px; padding: 22px 22px 14px; box-shadow: 0 12px 36px rgba(0,0,0,0.2);
-        border: 1px solid #d7ead9; direction: rtl; text-align: right; font-family: 'Noto Naskh Arabic', sans-serif;
-    }
-    .spen-modal h2 { margin: 0 0 8px 0; font-size: 22px; font-weight: 900; color:#1b5e20; }
-    .spen-modal p { margin: 6px 0; line-height: 1.7; color:#2e7d32; }
-    .spen-badges { display:flex; flex-wrap:wrap; gap:6px; margin: 8px 0 2px;}
-    .spen-badge { background:#e8f5e9; border:1px solid #d7ead9; color:#1b5e20;
-                  border-radius: 999px; padding: 4px 10px; font-size: 12px; }
-    </style>
-    """, unsafe_allow_html=True)
-
-    if st.session_state.show_about:
-        st.markdown('<div class="spen-modal-overlay">', unsafe_allow_html=True)
-        st.markdown('<div class="spen-modal">', unsafe_allow_html=True)
-
-        st.markdown("""
-        <h2>🌱 الشبكة النباتية الذكية لتوليد الكهرباء</h2>
-        <p>
-        تطبيق تعليمي يشرح مبدأ توليد الكهرباء من النباتات عبر الخلايا الوقودية الميكروبية النباتية،
-        ويوضح كيف نوسّعها إلى شبكة ذكية مع تخزين وتنظيم للطاقة لتغذية إنارة الحدائق والحساسات والكاميرات وإشارات المرور.
-        </p>
-        <div class="spen-badges">
-          <span class="spen-badge">Streamlit</span>
-          <span class="spen-badge">Matplotlib</span>
-          <span class="spen-badge">Pandas</span>
-          <span class="spen-badge">Arabic UI</span>
-          <span class="spen-badge">Bio-Energy</span>
-        </div>
-        <p><b>المزايا:</b><br>
-        • رسوم توضيحية لفكرة P-MFC • جداول ورسوم للجهد والتيار • دعم العربية (RTL + خط عربي داخل الرسوم) • تصميم خفيف للعرض المدرسي/المسابقة.
-        </p>
-        """, unsafe_allow_html=True)
-
-        c1, c2 = st.columns([0.2, 0.8])
-        with c1:
-            if st.button("✔️ فهمت"):
-                st.session_state.show_about = False
-        with c2:
-            if st.button("إغلاق", type="secondary"):
-                st.session_state.show_about = False
-
-        st.markdown('</div>', unsafe_allow_html=True)
-        st.markdown('</div>', unsafe_allow_html=True)
 
 # ===== عرض الترويسة والنافذة =====
 header_with_logo()
@@ -306,10 +254,10 @@ with tab4:
     ax_flow.text(0.13, 0.72, ar("شبكة نباتية"), fontproperties=AR_FONT, ha="center", fontsize=11)
 
     ax_flow.add_patch(plt.Rectangle((0.30, 0.60), 0.20, 0.25, fill=False))
-    ax_flow.text(0.40, 0.72, ar("مجمّع/منظّم"), fontproperties=AR_FONT, ha="center", fontsize=11)
+    ax_flow.text(0.40, 0.72, ar("مجمّع منظّم"), fontproperties=AR_FONT, ha="center", fontsize=11)
 
     ax_flow.add_patch(plt.Rectangle((0.57, 0.60), 0.20, 0.25, fill=False))
-    ax_flow.text(0.67, 0.72, ar("مكثفات/بطارية"), fontproperties=AR_FONT, ha="center", fontsize=11)
+    ax_flow.text(0.67, 0.72, ar("مكثفات بطارية"), fontproperties=AR_FONT, ha="center", fontsize=11)
 
     ax_flow.add_patch(plt.Rectangle((0.84, 0.60), 0.13, 0.25, fill=False))
     ax_flow.text(0.905, 0.72, ar("أحمال"), fontproperties=AR_FONT, ha="center", fontsize=11)
@@ -320,9 +268,9 @@ with tab4:
     ax_flow.annotate("", xy=(0.82, 0.72), xytext=(0.77, 0.72), arrowprops=dict(arrowstyle="->", lw=2))
 
     # أحمال فرعية
-    ax_flow.text(0.905, 0.52, ar("LED إنارة"), fontproperties=AR_FONT, ha="center", fontsize=10)
-    ax_flow.text(0.905, 0.46, ar("حساسات/كاميرات"), fontproperties=AR_FONT, ha="center", fontsize=10)
-    ax_flow.text(0.905, 0.40, ar("لوحات/إشارات"), fontproperties=AR_FONT, ha="center", fontsize=10)
+    ax_flow.text(0.905, 0.52, ar("إنارة"), fontproperties=AR_FONT, ha="center", fontsize=10)
+    ax_flow.text(0.905, 0.46, ar("حساسات، كاميرات"), fontproperties=AR_FONT, ha="center", fontsize=10)
+    ax_flow.text(0.905, 0.40, ar("لوحات، إشارات"), fontproperties=AR_FONT, ha="center", fontsize=10)
 
     ax_flow.axis("off")
     st.pyplot(fig_flow)
@@ -341,13 +289,14 @@ with tab4:
     p1 = p_net * w1; p2 = p_net * w2; p3 = p_net * w3
 
     st.write(f"• طاقة للسلامة: **{p1:.3f} W**  • للخدمة: **{p2:.3f} W**  • للرفاهية: **{p3:.3f} W**")
-
     fig_dist, ax_dist = plt.subplots()
     labels = [ar("سلامة"), ar("خدمة"), ar("رفاهية")]
     values = [p1, p2, p3]
-    ax_dist.bar(range(3), values)
+    colors = ["#2E7D32", "#66BB6A", "#A5D6A7"]
+    ax_dist.bar(range(3), values, color=colors, edgecolor="#1B5E20")
     ax_dist.set_xticks(range(3))
     ax_dist.set_xticklabels(labels, fontproperties=AR_FONT)
-    ax_dist.set_ylabel(ar("القدرة (واط)"), fontproperties=AR_FONT)
-    ax_dist.set_title(ar("توزيع القدرة حسب الأولوية"), fontproperties=AR_FONT)
+    ax_dist.set_ylabel(ar("القدرة (واط)"), fontproperties=AR_FONT, color="#1B5E20")
+    ax_dist.set_title(ar("توزيع القدرة حسب الأولوية"), fontproperties=AR_FONT, color="#1B5E20")
+    ax_dist.grid(axis="y", linestyle="--", alpha=0.4)
     st.pyplot(fig_dist)
